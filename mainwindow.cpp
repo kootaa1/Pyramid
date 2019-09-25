@@ -3,13 +3,17 @@
 
 #include <QFileDialog>
 
-
+const int MAX_LAYERS_COUNT = 4;
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    for(int i = 0; i < MAX_LAYERS_COUNT; i++)
+    {
+        ui->layresComboBox->insertItem(i,QString::number(i));
+    }
 }
 
 MainWindow::~MainWindow()
@@ -18,9 +22,9 @@ MainWindow::~MainWindow()
 }
 
 QMap<QString,QPixmap> pixmapContainer;
-
 void MainWindow::on_OpenFile_triggered()
 {
+    QPixmap currentPixmap;
     QString path = QFileDialog::getOpenFileName(this, tr("Open File"),
                                                 "/home",
                                                 tr("Images (*.png *.xpm *.jpg)"));
@@ -31,12 +35,13 @@ void MainWindow::on_OpenFile_triggered()
         {
             pixmapContainer.insert(name,path);
             ui->filesComboBox->insertItem(ui->filesComboBox->count()+1, name);
-            ui->imageLabel->setPixmap(pixmapContainer[name]);
-            ui->imageLabel->setFixedWidth(pixmapContainer[name].width());
-            ui->imageLabel->setFixedHeight(pixmapContainer[name].height());
-            ui->sizeLabel->setText(QString::number(pixmapContainer[name].width())
-                                   +QString("x")+
-                                   QString::number(pixmapContainer[name].height()));
+            currentPixmap = pixmapContainer[name];
+            ui->imageLabel->setPixmap(currentPixmap);
+//            ui->imageLabel->setFixedWidth(currentPixmap.width());
+//            ui->imageLabel->setFixedHeight(currentPixmap.height());
+            ui->sizeLabel->setText(QString::number(currentPixmap.width()) +
+                                   QString(" x ") +
+                                   QString::number(currentPixmap.height()));
             ui->filesComboBox->setCurrentIndex(ui->filesComboBox->count() - 1);
         }
     }
@@ -44,12 +49,15 @@ void MainWindow::on_OpenFile_triggered()
 
 void MainWindow::on_filesComboBox_currentTextChanged(const QString &arg1)
 {
-        ui->imageLabel->setPixmap(pixmapContainer[arg1]);
-        ui->imageLabel->setFixedWidth(pixmapContainer[arg1].width());
-        ui->imageLabel->setFixedHeight(pixmapContainer[arg1].height());
-        ui->sizeLabel->setText(QString::number(pixmapContainer[arg1].width())
-                               +QString("x")+
-                               QString::number(pixmapContainer[arg1].height()));
+    QPixmap currentPixmap;
+    currentPixmap = pixmapContainer[arg1];
+    ui->imageLabel->setPixmap(currentPixmap);
+//    ui->imageLabel->setFixedWidth(currentPixmap.width());
+//    ui->imageLabel->setFixedHeight(currentPixmap.height());
+    ui->sizeLabel->setText(QString::number(currentPixmap.width()) +
+                           QString(" x ") +
+                           QString::number(currentPixmap.height()));
+    ui->layresComboBox->setCurrentIndex(0);
 }
 
 
@@ -61,4 +69,17 @@ void MainWindow::on_filesComboBox_currentIndexChanged(int index)
 void MainWindow::on_filesComboBox_currentIndexChanged(const QString &arg1)
 {
 
+}
+
+void MainWindow::on_layresComboBox_currentIndexChanged(const QString &arg1)
+{
+    QPixmap currentPixmap;
+    currentPixmap = pixmapContainer[ui->filesComboBox->currentText()];
+    double oldWidth = currentPixmap.width();
+    double oldHeight = currentPixmap.height();
+    double width = currentPixmap.width() / pow(2, ui->layresComboBox->currentIndex());
+    double height = currentPixmap.height() / pow(2, ui->layresComboBox->currentIndex());
+    currentPixmap = currentPixmap.scaled(width, height);
+    currentPixmap = currentPixmap.scaled(oldWidth, oldHeight);
+    ui->imageLabel->setPixmap(currentPixmap);
 }
