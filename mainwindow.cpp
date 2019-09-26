@@ -3,7 +3,7 @@
 
 #include <QFileDialog>
 
-const int MAX_LAYERS_COUNT = 4;
+const int MAX_LAYERS_COUNT = 5;
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -39,7 +39,8 @@ void MainWindow::on_OpenFile_triggered()
             ui->imageLabel->setPixmap(currentPixmap);
 //            ui->imageLabel->setFixedWidth(currentPixmap.width());
 //            ui->imageLabel->setFixedHeight(currentPixmap.height());
-            ui->sizeLabel->setText(QString::number(currentPixmap.width()) +
+            ui->sizeLabel->setText(QString("Size: ") +
+                                   QString::number(currentPixmap.width()) +
                                    QString(" x ") +
                                    QString::number(currentPixmap.height()));
             ui->filesComboBox->setCurrentIndex(ui->filesComboBox->count() - 1);
@@ -54,7 +55,8 @@ void MainWindow::on_filesComboBox_currentTextChanged(const QString &arg1)
     ui->imageLabel->setPixmap(currentPixmap);
 //    ui->imageLabel->setFixedWidth(currentPixmap.width());
 //    ui->imageLabel->setFixedHeight(currentPixmap.height());
-    ui->sizeLabel->setText(QString::number(currentPixmap.width()) +
+    ui->sizeLabel->setText(QString("Size: ") +
+                           QString::number(currentPixmap.width()) +
                            QString(" x ") +
                            QString::number(currentPixmap.height()));
     ui->layresComboBox->setCurrentIndex(0);
@@ -82,4 +84,8 @@ void MainWindow::on_layresComboBox_currentIndexChanged(const QString &arg1)
     currentPixmap = currentPixmap.scaled(width, height);
     currentPixmap = currentPixmap.scaled(oldWidth, oldHeight);
     ui->imageLabel->setPixmap(currentPixmap);
+    ui->sizeLabel->setText(QString("Size: ") +
+                           QString::number((int)width) +
+                           QString(" x ") +
+                           QString::number((int)height));
 }
