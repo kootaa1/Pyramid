@@ -23,7 +23,7 @@ private:
     double y1;
     double y2;
 public:
-    virtual double Area()
+    double Area() override
     {
         return (x2-x1)*(y2-y1);
     }
@@ -37,7 +37,7 @@ private:
     double y1;
     double y2;
 public:
-    virtual double Area()
+    double Area() override
     {
         return (x2-x1)*(y2-y1);
     }
@@ -53,7 +53,7 @@ private:
     double y2;
     double y3;
 public:
-    virtual double Area()
+    double Area() override
     {
         pow(x1,2);
         double a = sqrt(pow(x2-x1,2) + pow(y2-y1,2));
@@ -70,7 +70,7 @@ private:
     double y;
     double radius;
 public:
-    virtual double Area()
+    double Area() override
     {
         return M_PI * pow(radius,2);
     }
@@ -84,11 +84,12 @@ void somefunction()
 {
     string name = "";
     FILE *f = fopen(name.c_str(), "w");
-    if(f==NULL)
-        printf("Can't open file");
-    //выйти из программы или что-нибудь ещё сделать :)
-    if(f!=NULL) //не закрывать не открытый файл
+    try {
+        // Тут код, при котором может быть выброшено исключение
+    } catch (exception& e) {
         fclose(f);
+        cout << e.what() << endl;
+    }
 }
 
 //=====================================3========================================
