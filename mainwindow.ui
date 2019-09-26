@@ -50,6 +50,26 @@
         </property>
        </widget>
       </item>
+      <item>
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>Coefficient</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="coefficientEdit">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="inputMask">
+         <string notr="true"/>
+        </property>
+        <property name="text">
+         <string notr="true">2</string>
+        </property>
+       </widget>
+      </item>
      </layout>
     </item>
     <item>
