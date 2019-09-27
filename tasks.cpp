@@ -100,13 +100,15 @@ void deleteDublucate(vector<int> arr)
 {
 
     std::sort(arr.begin(),arr.end());
-    for(int i = 1, currentElement = 0; i < arr.size(); i++)
+    int currentElement = 0;
+    for(int i = 1; i < arr.size(); i++)
     {
         if(arr[currentElement] == arr[i])
             continue;
         currentElement++;
         arr[currentElement] = arr[i];
     }
+    arr.resize(currentElement + 1);
 }
 
 //=====================================4========================================
